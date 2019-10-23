@@ -1,0 +1,8 @@
+
+Restart Policy Options
+
+--restart flag
+"no"  Do not automatically restart the container,(Default one )
+"on-failure" Restart the container if it exits due to an error, which manifeasts as a non-zero exit code
+"unless-stopped" Restart the container unless it si explicitly stoped or Docker itself is stopped or restarted.
+"always" Always restart the container if it stops
