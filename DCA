@@ -6,3 +6,12 @@ Restart Policy Options
 "on-failure" Restart the container if it exits due to an error, which manifeasts as a non-zero exit code
 "unless-stopped" Restart the container unless it si explicitly stoped or Docker itself is stopped or restarted.
 "always" Always restart the container if it stops
+
+
+2. Disk usage metrics for Docker components
+
+overview of disk utilization
+docker system df
+
+disk utilization for each container and image
+docker system df -v
