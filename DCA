@@ -15,3 +15,46 @@ docker system df
 
 disk utilization for each container and image
 docker system df -v
+
+
+
+Use CURL and WGET whenever possible
+
+ADD http://example.com/file.tar.gz /usr/src/things/
+RUN tar -xJf /usr/src/things/file.tar.gz -C /usr/src/things/
+RUN make -C /usr/src/things/ all
+
+
+RUN mkdir -p /usr/src/things \
+    && curl -SL http://example.com/file.tar.gz \
+	| tar -xJC /usr/src/things \
+	&& make -C /usr/src/things all
+	
+HEALTHCHECK
+
+FROM busybox
+HEALTHCHECK --interval=5s CMD ping -c 172.17.0.2
+
+--interval=DURATION (default: 30s)
+--timeout=DURATION (default: 30s)
+--start-period=DURATION (default: 0s)
+--retries=N (default 3)
+
+	
+ENTRYPOINT
+
+The best use for ENTRYPOINT is to set the image's main command
+ENTRYPOINT doesn't allow you to override the command
+
+	
+Commiting container
+
+  Whenever you make changes inside the container, it can be useful to commit a container's
+file changes or settings into a new image.
+  By default, the container being commited and its process will be paused while the image is committed 
+
+docker container commit CONTAINER-ID myimage  
+docker container commit --change='CMD ["ash"]' busybox
+
+  Supported Dockerfile instruction:
+  CMD ENTRYPOINT ENV EXPOSE LABEL ONBUILD USER VOLUME WORKDIR
