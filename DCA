@@ -58,3 +58,57 @@ docker container commit --change='CMD ["ash"]' busybox
 
   Supported Dockerfile instruction:
   CMD ENTRYPOINT ENV EXPOSE LABEL ONBUILD USER VOLUME WORKDIR
+
+
+UNDERSTANDING LAYERS
+
+  * A Docker image is build up froma series of layers.
+  * Each layer represents an instruction in the image's Dockerfile
+  * The major difference between a container and an image is the top writable layer
+  * All writes to the container that add new or modify existing data are stored in this writable layer
+  
+  Docker build and verify layers and size
+  
+  FROM ubuntu:16.04
+  COPY . /app
+  RUN make /app
+  CMD python /app/app.py
+  
+ To check the layers of a container image 
+    docker history <image name>
+    
+  Docker build and verify layers and size
+  
+  FROM ubuntu
+  RUN dd if=/dev/zero of=/root/file1.txt bs=1M count=100
+  RUN dd if=/dev/zero of=/root/file2.txt bs=1M count=100
+  RUN rm -f /root/file1.txt
+  RUN rm -f /root/file2.txt
+  RUN apt-get update
+  RUN apt-get install nano -y
+  RUN apt-get install vim -y
+  
+  Docker build and verify layers and size
+  
+    FROM ubuntu
+    RUN dd if=/dev/zero of=/root/file1.txt bs=1M count=100 && rm -f /root/file1.txt
+    RUN dd if=/dev/zero of=/root/file2.txt bs=1M count=100 && rm -f /root/file2.txt
+    RUN apt-get update && apt-get install nano -y && apt-get install vim -y
+  
+  
+  Docker Images CLI
+  
+  Commands:
+  build       Build an image from a Dockerfile
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Display detailed information on one or more images
+  load        Load an image from a tar archive or STDIN
+  ls          List images
+  prune       Remove unused images
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rm          Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  
