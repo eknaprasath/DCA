@@ -139,3 +139,22 @@ UNDERSTANDING LAYERS
     
     "docker imgge prune" # it will remove the images which is not tagged
     "docker image prune -a" # it will remove the images which is not refered with any container
+
+
+CONVERTING IMAGE TO SINGLE LAYER
+
+  In a generic scenario, the more the layers an image has, the more the size of the image
+  some of the image size goes from 5GB to 10GB
+  Flattening an image to singel layer can help reduce the overall size of the image.
+  
+  docker container run -dt --name myubuntu ubuntu
+  
+  One of the way to create a single layer image is export and import
+  
+  "docker export myubuntu > myubuntudemo.tar"
+  "cat myubuntudemo.tar | docker import - myubuntu:latest"
+  
+  docker image ls 
+  docker image history myubuntu
+  
+  
