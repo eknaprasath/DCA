@@ -129,3 +129,13 @@ UNDERSTANDING LAYERS
     docker image inspect nginx --format='{{.ContainerConfig}}' #This command will get the whole portion of the output value
     docker image inspect nginx --format='{{json .ContainerConfig}}' #This command will get the Key with Value
     docker image inspect nginx --format='{{.ContainerConfig.Hostname}}'
+    
+    
+    IMAGE PRUNING STEPS
+    
+    "docker image prune" command allows us to clean up unused images.
+    By default, the above command will only clean up dangling images
+    Dangling Images= Images without Tags and Image not referenced by any container
+    
+    "docker imgge prune" # it will remove the images which is not tagged
+    "docker image prune -a" # it will remove the images which is not refered with any container
