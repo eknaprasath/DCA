@@ -158,3 +158,39 @@ CONVERTING IMAGE TO SINGLE LAYER
   docker image history myubuntu
   
   
+  DOCKER REGISTRY
+  
+   A Registry a stateless, highly scalable server side application that stores and lets you distribute Docker images.
+   
+   Docker Hub is the simplest example that all of us must have used.
+   
+   There are various types of registry available, which includes:
+   
+   * Docker Registry
+   * Docker Trusted Registry
+   * Private Repository ( AWS ECR )
+   * Docker Hub
+   
+   "docker run -d -p 5000:5000 --restart always --name registry registry:2"
+   
+   To push image need to tage the image
+   
+   docker tag ubuntu:latest localhost:5000/myubuntu
+   
+   docker image ls
+   
+   docker push localhost:5000/ubuntu
+   
+   docker pull localhost:5000/ubuntu
+   
+   CENTRAL REPOSITORY DOCKER HUB
+   
+   docker login
+   
+   docker tage busybox <username>/mydemo:v1
+   docker push <username>/mydemo:v1
+   
+   docker logout
+   
+   
+  
