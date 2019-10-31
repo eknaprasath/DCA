@@ -193,4 +193,11 @@ CONVERTING IMAGE TO SINGLE LAYER
    docker logout
    
    
+   APPLYING FILTER FOR DOCKER IMAGES
+   
+     docker search nginx
+     
+     docker search nginx --limit 5 # this will list only top 5 images based on the popularity
+     
+     docker search nginx --fileter "is-official=true"
   
