@@ -1,0 +1,31 @@
+Docker takes care of the networking aspects so that container can communicate with other containers and also with the Docker Host.
+
+By default if we install docker in to our system it will create "docker0" network interface
+Docker networking subsystem is pluggable, using drivers.
+
+There are several drivers available by default, and provides core networking functionality.
+
+* Bridge
+* Host
+* Overlay
+* Macvlan
+* none
+
+"docker network ls"
+"docker inspect bridge"
+docker container run -dt --name hostnetwork --network host ubuntu
+
+apt-get install net-tools
+apt-get install iputils-ping
+ 
+ BRIDGE NETWORK
+ 
+ A bridge network uses a software bridge which allows containers connected to the same bridge network to communicate,
+ while providing isolation from containers which are not connected to that bridge network
+ 
+ Bridge is the rdefault network driver for Docker.
+ If we do not specify a driver, this is the type of network you are creating.
+ When you start Docker,a default bridge network (also called bridge) is created.
+ automatically, and newly-started containers connected to it unless otherwise specified.
+ 
+ We also can create User-Defined Bridege Network which are superior to the default bridge
