@@ -29,3 +29,29 @@ apt-get install iputils-ping
  automatically, and newly-started containers connected to it unless otherwise specified.
  
  We also can create User-Defined Bridege Network which are superior to the default bridge
+
+USER DEFINED BRIDGE
+
+"brctl show" it will list out the bridge network information
+
+brctl commadn comes with "bridge-utils" package we can install it using yum install bridge-utils
+
+There are various difference between default and user defined bridge.
+
+* User defined bridges provid better isolation and interoperability between containerized applications.
+* User defined bridges provide automatic DNS resolution between containers.
+* Containers can be attached and detached from user-defined networks on the fly
+* Each user-defined network creates a configurable bridge.
+* Linked containers on the default bridge network share environment variable
+
+"docker network ls"
+"docker network create --driver bridge mybridge
+"docker container run -dt --name mybridge01 --network mybridge ubuntu"
+"docker container run -dt --name mybridge02 --network mybridge ubuntu"
+brctl show
+
+HOST NETWORK
+
+ This driver removes the network isolation between the docker host and the docker containers to use the host's networking directly.
+ For instance, if you run a container which binds to port 80 and you use host networking, the container's application will be available on port 80
+  on the host's IP address
