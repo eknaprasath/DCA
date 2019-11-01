@@ -236,6 +236,102 @@ Swarm cluster contains lot of sensitive information, which includes:
 If your swarm is compromised and if data is stored in plain-text, an attack can get all the sensitive information.
 Docker locks allows us to have control over the keys.
 
+cd /var/lib/docker
+
+ls -l
+cd swarm
+cd certificates
+ls -l
+cat *.key
+
+docker swarm update --autolock=true
+
+docker swarm unlock
+docker swarm unlock-key
+docker swarm unlock-key --rotate
+ 
+ 
+ TROUBLESHOOTING SWARM SERVICE
+ 
+ A service may be configured in such a way that no node currently in the swarm can run its tasks.
+ In this case, the service remains in state pending
+ 
+ There are multiple reasons why service might go into pending state
+ 
+ * If all nodes are drained and you create a service, it is pending until a node becomes available
+ 
+* you can reserve a specific amount of memory for a service, if no node in the swarm has the required 
+amount of memory, the service remains in a pending state until a node is available which can run its tasks.
+* You have imposed some kind of placement constraints
+
+docker service create --name demotroubleshoot --constraint node.labels.region==1mumbai --replicas 3 nginx
+docker service ps demotroubleshoot
+docker inspect <task-name>
+
+MOUNTING VOLUEM VIA SWARM
+
+docker service create --name myservice --mount type=volume,source=myvolume,target=/mypath nginx
+docker service ps myservice
+
+docker volume ls
+docker exec -it id /bin/bash
+
+cd /mypath
+touch test-file
+exit
+
+cd /var/lib/docker/volumes/
+ls
+cd _data/
+ls
+
+docker ps
+docker service ls
+docker servce rm myservice
+
+docker volume ls
+cd /var/lib/docker/volumes/
+ls
+cd _data/
+ls
+
+CONTROL SERVICE PLACEMENT
+
+Swarm services provides a few differen ways for your to control scale and placement of services on different nodes.
+
+- Replicated and Global Services
+- Resource Constraints [requirement of CPU and Memory]
+- Placemet Constraints [only run on nodes with label "pci_compliance = true"]
+- Placement preferences
+
+docker node ls
+docker service create --name myconstraint --constraint node.labels.region==blr replicas 3 nginx
+docker service ps myconstraint
+docker node inspect node-id
+docker service rm myconstraint
+
+docker node ls
+docker node update --label-add region=mumbai node-id
+docker node inspect node-id
+docker service create --name myconstraint --constraint node.labels.region==mumbai replicas 3 nginx
+docker service ps myconstraint
+
+OVERLAY NETWORKS
+
+The overlay network driver creates a distributed network among multiple Docker daemon hosts
+Overlay network allows containers connected to it to communicate securely.
+
+Whenever we initiate the swarm it will create a overlay network
+
+docker network ls
+
+docker network inspect my-network
+
+CREATING CUSTOM OVERLAY NETWORK
+
+docker network create --driver overlay mynetwork
+docker service create --name myoverlay --network mynetwork --replicas 3 nginx
+docker node ls
 
 
 
