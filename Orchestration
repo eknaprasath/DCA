@@ -30,3 +30,95 @@ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce
 yum -y install docker-ce
 systemctl start docker
 systemctl enable docker
+
+
+Initializing Docker Swarm
+
+A node is an instane of the Docker engine participating in the swarm .
+To deploy your application to a swarm, you submit a service definition to a manager node
+The manager node dispatches units of work called tasks to worker nodes.
+
+Manager Node command:
+ docker swarm init --advertise-addr <MANAGER-IP>
+ 
+Worker Nodes command:
+ docker swarm join --token worker-token
+ 
+ docker node ls
+ 
+ SERVICES, TASKS AND CONTAINERS
+ 
+ A service is the definition of the tasks to execute on the manager or worker nodes.
+ 
+ docker service create --name webserver --replicas 1 nginx
+ 
+ docker service ls
+ 
+ docker service ps webserver
+ 
+ docker container stop webserver
+ 
+ docker serivce ps webserver
+ 
+ systemctl stop docker
+ 
+ docker service rm webserver
+ 
+ SCALING THE SWARM SERVICE
+ 
+ Once you have deployed a service to a swarm, you are ready to use the docker CLI to 
+ scale the number of containers in the service.
+ 
+ Containers running in a service are called "tasks"
+ 
+ docker service scale webserver=5
+ 
+ docker service ps webserver
+ 
+ stop docker in any one of the node and check the functionality
+ 
+ docker service scale webserver=2
+ 
+ docker service create --name service01 --replicas 1 nginx
+ 
+ docker service create --name service02 --replicas 1 nginx
+ 
+ docker service ls
+ 
+ docker service update --replicas 5 service01 # at a time we can scale only one service by using this command
+ docker service scale service01=3 service02=3 # using this command we can scale multiple services at a time
+ 
+ 
+ REPLICATED VS GLOBAL SERVICE
+ 
+ There are two types of services deployments, replicated and global
+ For a replicated service, you specify the number of identical tasks you want to run. for example
+ you decide to deploy an NGINX service with two replicas, each servicing the same conten.
+ 
+ Global service is a service that runs one task on every node.
+ 
+ Each time you add a node to the swarm, the orchestrator creates a task and the scheduler assigns the task to the new node.
+ 
+ docker service create --name antivirus --mode global -dt ubunt
+ 
+ NODE DRAINING
+ 
+ docker node ls
+ 
+ docker service create --name mywebserver --replicas 5 nginx
+ 
+ docker service ps
+ 
+ docker node update --availability drain swarm03
+ docker node ls
+ 
+ docker node update --availability active swarm03
+ docker node ls
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
