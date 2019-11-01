@@ -115,10 +115,127 @@ Worker Nodes command:
  docker node update --availability active swarm03
  docker node ls
  
+ DOCKER INSPECT
+ 
+ Docker inspect provides detailed information of the Doceker Object
+ 
+ Some of these Docker Object includes:
+ 
+ - Docker Containers
+ - Docker Network
+ - Docker Volues
+ - Docker Swarm Services
+ - Docker Swarm Nodes
+ 
+ docker service inspect demotroubleshoot
+ docker service inspect demotroubleshoot --pretty
+ 
+ docker node inspect node-name
+ docker node inspect node-name --pretty
+ 
+ ADD NETWORKING AND PUBLISHING PORT 
+ 
+ docker service create --name web --replicas 2 nginx
+ docker service ls
+ docker service ps
+ 
+ docker service create --name webserver --replicas 2 --publish 80:80 nginx
+ docker service ls
  
  
+ DOCKER COMPOSE OVERVIEW
  
  
+ Compose is a tool for defining and running multi-container Docker applications.
+ with compose, you use a YAML file to configure your applications services.
+ we can start all the services with single command - docker compose up
+ we can stop all the services with single command - docker compose down
+ 
+ Need to install docker compose.
+ 
+ docker-compose.yml
+ 
+ version: '3'
+ services:
+   webserver:
+     image: nginx
+   database:
+     image: redis
+     
+   docker-compose config # check the format error
+   docker-compose up -d # to run in detached mode
+   
+   docker-compose down
+    version: '3'
+ services:
+   webserver:
+     image: nginx
+     ports:
+       - "8080:80"
+   database:
+     image: redis
+   
+   
+ docker-compose up -d
+ 
+version: '3.3'
+ 
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+ 
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+       WORDPRESS_DB_NAME: wordpress
+volumes:
+    db_data: {}
  
  
+
+ MULTI SERVICE APPLICATION DEPLOYMENT
  
+ A specific web-application might have multiple containers that are required as part of the build process.
+ Whenever we make use of docker service, it is typically for a single container image.
+ The docker stack can be used to manage a multi-service application.
+ 
+ DOCKER STACK
+ 
+  A stack is a grouop of interrelated services that share dependencies, and can be orchestrated and scaled together.
+  A stack can compose YAML file like the one that we define during Docker Compose.
+  We can define everythign within the YAML file that we might define while creating a Docker Service
+  
+  docker stack deploy --compose-file docker-compose.yml mydemo
+  docker stack ps mdemo
+  
+  docker stack rm mydemo
+  
+  
+  LOCKING SWARM CLUSTER
+Swarm cluster contains lot of sensitive information, which includes:
+
+* TLS key used to encrypt communication among swarm node
+* Keys used to encrypt and decrypt the Raft logs on disk
+
+If your swarm is compromised and if data is stored in plain-text, an attack can get all the sensitive information.
+Docker locks allows us to have control over the keys.
+
+
+
+
