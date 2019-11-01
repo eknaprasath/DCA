@@ -1,0 +1,32 @@
+Container orchestration is all about managing the life cycle of containers, especially in large, dynamic environemnts,
+
+Container monitorint
+maintaining the number of docker containers
+Host failure handling
+
+Container orchestration can be used to perform lot of tasks, some of them includes:
+
+ * Provisioning and deployment of containers
+ * Scaling up or removing containers to spread application load evenly
+ * Movement of containers from one host to another if there is a shortage of resources
+ * Load balancing of service discovery between containers
+ * Health monitoring of containers and hosts
+ 
+ Container Orchestration Solutions
+ 
+ There are many containers orchestration solutions which are available, some of them popular o
+ 
+ * Docker swarm
+ * Kubernetes
+ * Apache Mesos
+ * Elastic Container Service (AWS ECS)
+ 
+ Docker swarm is a container orchestration tool which is native supported by Docker
+ 
+ create 3 Node cluster
+ 
+ #!/bin/bash
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum -y install docker-ce
+systemctl start docker
+systemctl enable docker
