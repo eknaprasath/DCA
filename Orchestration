@@ -38,6 +38,8 @@ A node is an instane of the Docker engine participating in the swarm .
 To deploy your application to a swarm, you submit a service definition to a manager node
 The manager node dispatches units of work called tasks to worker nodes.
 
+
+
 Manager Node command:
  docker swarm init --advertise-addr <MANAGER-IP>
  
@@ -333,5 +335,51 @@ docker network create --driver overlay mynetwork
 docker service create --name myoverlay --network mynetwork --replicas 3 nginx
 docker node ls
 
+docker service rm myoverlay
+docker service ls 
+docker network ls #custom network will be removed 
 
+SECURE OVERLAY NETWORK
+
+For the overlay networks, the containers can be spreaded across multiple servers.
+If the containers are communicating with each other, it is recommended to secure the communication.
+To enable encryption, when you create and overlay network pass the --opt encrypted flag:
+
+When you enable overlay encryption, Docker creates IPSEC tunnels between all the nodes where tasks are
+scheduled for services attached to the overlay network.
+
+These tunnels also use the AWS algorighm in GCM mode and manager nodes automatically rotate the keys every 12 hours
+
+Overlay network encryption is not supported on Windows. If a Windows node attempts to connect to an encrypted overlay network,
+no error is detected but the node will not be able to communicate.
+
+docker network create --opt encrypted --driver overlay my-overlay-secure-network
+
+CREATING SWARM SERVICE USING TEMPLATE
+
+  We can make use of templates while running the service create command in swarm.
+  
+  Let us understand this with an example:
+  
+  docker service create --name demoservice--hostname="{{.Node.Hostname}}-{{.Service.Name}}" nginx
+
+
+Valid Placeholders
+
+Placeholder      Description
+Service.ID       Service ID
+.Service.Name    Service Name
+.Service.Labels  Service labels
+.Node.Id         Node ID
+.Node.Hostname   Node Hostname
+.Task.ID         Task ID
+.Task.Name       Task Name
+.Task.Slot       Task slot
+
+There are three supported flags for the placeholder templates:
+
+  --hostname
+  --mount
+  --env
+  
 
