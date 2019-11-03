@@ -382,4 +382,63 @@ There are three supported flags for the placeholder templates:
   --mount
   --env
   
+SPLIT BRAIN & IMPORTANCE OF QUORUM
+
+If we have only two nodes cluster may endup with split brain so we need three node cluster quorum voting 
+Need to have ODD number of nodes in cluster
+
+CLUSTER SIZE       MAJORITY      FAULT TOLERANCE
+1                   0                   0
+2                   2                   0
+3                   2                   1
+4                   3                   1
+5                   3                   2
+6                   4                   2
+7                   4                   3
+
+HIGH AVAILABILITY OF SWAM MANAGER NDES
+
+
+ Manager nodes are responsible for handling the cluster management tasks.
+ * Maintaining cluster state
+ * Scheduling services
+ * Serving swarm mode HTTP API endpoints
+ 
+ Using a Raft implementation, the managers maintain a constistent internal state of the entire swarm and all the services running on it.
+ 
+ Swarm comes with it's own fault tolerance features.
+ Docker recommends you implement an odd number of nodes according to your organization's high-availability requirements
+ Using a Raft implementation, the managers maintain a consistent internal state of the entire swarm and all the services running on it
+ An N manager cluster tolerates the loss of an most (N-1)/2 managers.
+ 
+ *docker swarm join-token manager*
+ 
+ * Maximum of 7 manager is recommended by docker
+ 
+ MANAGER ONLY NODES IN SWARM
+ 
+ create a simple service with 3 replicas
+ 
+ docekr service create --name webserver --replicas 3 nginx
+ docker service ps webserver
+ 
+ docker node update --availability drain <node-id>
+ 
+ RECOVERING FROM LOSING THE QUORUM
+ 
+  Create a 2 master and 1 worker
+  and do drain on both master
+  docker node update --availability drain <node-id>
+  docker service create --name webserver --replicas 3 nginx
+ stop docker in one master
+ systemctl stop docker
+ docker node ls # it will throw error
+ 
+ 
+ docker swarm init --force-new-cluster --advertise-addr
+ 
+ 
+ 
+ 
+
 
