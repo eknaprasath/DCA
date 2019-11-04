@@ -1,0 +1,72 @@
+Docker Enterprise Edition (also referred as Docker EE) is designed for enterprise development as well as IT teams who build,
+ship and run business-critical applications in production and at scale
+
+Docker EE is officially supported by the Docker Team.
+
+Enterprise edition come up with Stability, Support and some unique features
+ 
+There are multiple tiers available for Docker Enterprise edition. Referred as Basic, Standard and Advanced.
+
+ Capabilities                    Docker Engine - community        Docker Engine- Enterprise        Docker Enterprise
+ Container engine and built in         Yes                              Yes                              Yes
+ orchestration, networking, 
+ secuity  
+ 
+ Certified Infrastructure,                                              Yes                              Yes 
+ plugins and ISV containers
+ 
+ Image management                                                                                        Yes
+ 
+ Container app management                                                                                Yes
+ 
+ Image Security Scanning                                                                                 Yes
+ 
+ 
+ 
+ INSTALLING DOCKER EE
+ 
+ Subscribe for EE trail 
+ 
+ user-name--> my content --> setup --> license key
+ copy the URL to configure 
+ choose the os version --> copy the link -->wget 
+ 
+ nano docker-ee.repo
+ cp docker-ee.repo /etc/yum.repos.d/
+ 
+ export DOCKERURL="INSERT-YOUR-URL-HERE-WHICH-IS-COPIED-FROM-DOCKER-CONSOLE"
+ 
+sudo -E sh -c 'echo "$DOCKERURL/centos" > /etc/yum/vars/dockerurl'
+ 
+yum -y install docker-ee docker-ee-cli containerd.io
+ 
+systemctl start docker
+systemctl enable docker
+ 
+docker login
+ 
+docker engine activate 
+ 
+ 
+DOCKER UNIVERSAL CONTROL PLANE (UCP)
+
+Docker UCP is the enterprise-grade cluster management solution from Docker.
+UCP help you manage your Docker cluster and applications through a single interface.
+
+UCP Architecture.
+
+Universal Control Plane is a containerized application that runs on Docker EE.
+Once Universal Control Plane (UCP) instance id deployed, developers and IT operations no longer interact 
+  with Docker Engine directly, but interact with UCP instead.
+  
+System Requirements for UCP
+
+Minimum Requirements for UCP:
+
+* Docker EE engine.
+* 8GB of RAM for Manager Nodes
+* 4GB of RAM for Worker nodes
+* 5 GB of free disk space for the /var partition for manager nodes
+* 500MB of free disk space for the /var partiton for worker nodes
+
+
