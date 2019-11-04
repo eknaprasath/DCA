@@ -439,6 +439,16 @@ HIGH AVAILABILITY OF SWAM MANAGER NDES
  
  
  
+ DOCKER SYSTEM COMMANDS
  
+ https://docs.docker.com/engine/reference/commandline/system_events
+ 
+docker system events
 
+stop one container
+doker stop container-name
+
+docker system events --since 2019-03-20
+
+docker system df 
 
