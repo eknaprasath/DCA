@@ -119,7 +119,31 @@ UCP ACCESS CONTROL
     * Application Configs
     
     
+OVERVIEW OF DOCKER TRUSTED REGISTRY
 
+   Docker Trusted Registry (DTR) is the enterprise-grade image storage solution from Docker.
+   
+   DTR provides many features that helps in overall enterprise grade container management.
+   Some of these features include:
+   
+    * Security Scanning
+    * Image signing
+    * Built-in access control
+    * Caching Images
+    
+   Docker Trusted Registry (DTR) is a containerized application that runs on a Docker Universal Control Plane cluster
+   
+   SYSTEM REQUIREMENTS FOR DTR
+   
+     Minimum requirements for DTR:
+     
+       * 16 GB of RAM for nodes running DTR
+       * 2 vCPUs for ndoes running DTR
+       * 10 GB of free disk space
+       
+     To install DTR, all nodes must:
+       Be a worker nodes managed by UCP ( Universal Control Plane )
+       Have a fixed hostname
 
 
 
