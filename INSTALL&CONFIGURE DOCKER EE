@@ -70,3 +70,56 @@ Minimum Requirements for UCP:
 * 500MB of free disk space for the /var partiton for worker nodes
 
 
+docker container run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:3.1.4 install --host-address 139.59.82.72 --force-minimums
+
+UCP ACCESS CONTROL
+
+  Docker UCP allows us provides granular access control feature which allows us to define various aspects like who can create and edit
+  container resources in your swarm and others.
+  
+  "TEAM B" has "Restricted Control" on "Collection A"
+  
+  SUBJECTS                 ROLES                       COLLECTIONS
+  Organization A          No Access                  A         B         c
+  TeamA    TeamB          Read Only               Node A    Secret A    Node B
+                         Restricted Control       Secret B  Stack C     Node C
+                         Full Control             Service A             Service B
+                                                                        Service C
+                                                                        
+ UNDERSTANDING SUBJECT
+ 
+ A subject represents a user, team, or organization.
+ A subnect is in-turn granted an appropriate role.
+ 
+ User: Individual User.
+ 
+ Organization: A group of users that share a specific set of permissions, defined by the roles of the organization.
+ 
+ Team: A group of users that share a set of permissions defined in the team itself.
+       A team exists only as part of an organization.
+       
+ 
+ UNDERSTANDING ROLES
+ 
+   A role is a set of permitted API operations that you can assign to a specific subject and collection.
+   
+   
+ UNDERSTANDING COLLECTIONS
+ 
+    Docker EE enables controlling access to swarm resources by using collections.
+    
+    Swarm resources that can be placed in to a collection include:
+    
+    * Physical or virtual nodes
+    * Containers
+    * Services
+    * Networks
+    * Volumes
+    * Secrets
+    * Application Configs
+    
+    
+
+
+
+
