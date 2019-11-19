@@ -164,6 +164,30 @@ The backup command doesn't cause downtime for DTR, so you can take frequent back
 
 docker run --log-driver none -i --rm docker/dtr backup --ucp-url https://172.31.40.237 -ucp-insecure-tls --ucp-username admin --ucp-password YOUR-PASSWORD-HERE > backup.tar
 
+OVERVIEW OF ROUTING MESH
+
+ There can be multiple nodes within a swarm cluster.
+ When creating a service, the task can be assigned to nodes depending on various factors.
+ Routing mesh enables each node in the swarm to accept connections on published ports for any service running in the swarm, even if there's
+ no task running on the node.
+ 
+ Ingress network
+ 
+docker node ls
+
+docker service ls
+docker service ps my-web
+get the ip address of the node where the service running
+
+try to curl the another host where the service not running and verify the service is reachable
+
+
+
+docker service create --name webserver --publish published=8080,target=80 --replicas 1 nginx
+
+docker service ps webserver
+netstat -tunlp ( on both servers and check the port if occupied on both servers )
+
 
 
 
