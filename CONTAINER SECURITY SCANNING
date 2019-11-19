@@ -1,0 +1,22 @@
+Docker containers can have security vulnerabilites
+If blindly pulled and if containers are running in production, it can result in breach.
+
+DTR allows us to perform security scan for the containers.
+These scan can perform "On Push" or even manually
+
+
+CONFIGURE CONTAINER SCANNING WITH DTR
+
+Enable the vulnerability scanning features and try with pushing the image to repo
+
+OVERVIEW OF UCP CLIENT BUNDLES
+
+  A client bundle is a group of certificates downloadable directly from the Docker Universal Control Plane (UCP)
+  
+  Depending on the permission associated with the user, you can now execute docker swarm commands from your remote machine that take effect on the remote cluster
+  
+For example:
+
+  * You can create a new service in UCP from your laptop.
+  * Login to remote container from your laptop without SSH (Via API)
+  
