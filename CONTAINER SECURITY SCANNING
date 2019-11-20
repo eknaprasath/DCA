@@ -52,3 +52,48 @@ curl -sSL https://get.docker.com/ | sh
 docker service create --name mydemoservice nginx
 
 goto ucp gui and check for the created service
+
+
+INTEGRATING LDAP WITH UCP
+
+Goto admin setting -->Authentication & Authorization --> LDAP ENABLE 
+
+LINUX NAMESPACES
+
+Docker uses a technology called namespaces to provide the isolated work space called the container
+The namespaces provide a layer of isolation. Each aspect of a container runs in a separate namespace and its access is limited to that namespace.
+
+Namespace A                         Namespace B
+UTS PID                             UTS   PID
+
+docker container run -dt --name mybusybox busybox sh
+docker ps
+ps -ef
+
+docker container exec -it mybusybox bash
+
+ps -ef 
+
+unshare -fp --mount-proc /bin/bash
+
+unshare --uts /bin/bash
+hostname
+hostname mynamespace
+
+Currently Linux provides six different types of namespaces as follows:
+
+* Inter-Process Communication (IPC)
+* Process(PID)
+* Network(net)
+* User Id (user)
+* Mount (mnt)
+* UTS
+
+CONTROL GROUPS (CGROUPS)
+Control groups (cgroups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage(CPU,memory,disk I/O, network, etc.)
+of a collection of processes.
+
+
+
+
+
