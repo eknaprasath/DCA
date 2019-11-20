@@ -20,3 +20,35 @@ For example:
   * You can create a new service in UCP from your laptop.
   * Login to remote container from your laptop without SSH (Via API)
   
+
+UCP Client bundle is associated with user so we can find them from -> my profile
+create a new bundle and download the bundle
+
+launch a container
+
+docker container run -it -dt --name myubuntu ubuntu bash
+
+docker ps
+docker cp "ucp-bundle-admin.zip" myubuntu:/tmp
+
+docker container exec -it myubuntu bash
+cd /
+mkdir /ucp
+cp /tmp/ucp-bundle-admin.zip /ucp
+apt-get update
+apt-get install unzip
+
+unzip ucp-bundle-admin
+nano env.sh
+
+
+eval "$(<env.sh)"
+
+to verify 
+echo $DOCKER_HOST
+
+curl -sSL https://get.docker.com/ | sh
+
+docker service create --name mydemoservice nginx
+
+goto ucp gui and check for the created service
