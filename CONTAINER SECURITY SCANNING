@@ -93,7 +93,39 @@ CONTROL GROUPS (CGROUPS)
 Control groups (cgroups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage(CPU,memory,disk I/O, network, etc.)
 of a collection of processes.
 
+Control grups is a Linux kernal feature but docker support primaryly CPU and Memory
 
+LIMITING MEMORY
+
+docker run --help
+-m or --memory in bytes
+
+docker container run -dt --name mymemory01 -m 256m busybox
+docker container exec -it mymemory01 sh
+
+free -m
+
+cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+
+
+LIMITING CPU
+docker run --help
+
+There are various ways in which you can limit the CPU for containers, these include:
+
+Approaches                        `Description
+--cpus=<value>            If you has 2 CPUs and if you set --cpus=1 then container is guranteed at most one CPU. you can even specify --cpu=0.5
+
+--cpuset-cpus             Limit the specific CPUs of cores a container can use. A comma-separated list or hyphen-separated range of CPUs a container can use
+                          1st CPU is numbered 0
+                          2nd CPU is numbered 1
+                          
+                          Value of 0-3 means usage of first, second, third and fourch CPU.
+                          Value of 1,3 means second and fourth CPU.
+
+
+
+docker container run -dt --name mycpu01 --cpu=1
 
 
 
