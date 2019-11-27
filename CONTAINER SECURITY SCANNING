@@ -163,7 +163,14 @@ SWARM MTLS ( Mutual Transport Layer Security )
   
   You can specify your own externally-generated root CA, using the --external-ca flag of the docker swarm init command.
   
+  Each time a new node joins the swar, the manager issues a certificate to the node.
+
+
+
+  By default, each node in the swarm renews its certificate every three months.
   
-
-
+  You can configure this interval by running the "docker swarm update --cert-expiry <TIME PERIOD>
+  
+  In the event that a cluster CA key or a manager node is compromised, you can rotate the swarm node CA so that none of the nodes trust 
+  certificates signed by the old root CA anymore.
 
