@@ -277,3 +277,38 @@ Content trust gives you the ability to verify both the integrity and the publish
 This can be achieved with the help of digital signatures.
 
 
+
+Before enable the docker content trust pull a image DTR
+
+
+docker pull example.com/admin/scanserver:ubuntu
+
+export DOCKER_CONTENT_TRUST=1
+
+docker rmi example.com/admin/scanserver:ubuntu
+docker pull example.com/admin/scanserver:ubuntu
+
+will get output like " No valid trust data for ubuntu"
+
+docker pull nginx
+
+docker trust inspect nginx
+
+
+OVERVIEW OF DOCKER GROUP
+
+useradd ekna
+su - ekna
+
+docker ps #will get permission denied 
+
+add user to "docker" group and that user can do the docker related commands
+
+usermod -aG docker dockeruser
+
+
+
+
+
+
+
