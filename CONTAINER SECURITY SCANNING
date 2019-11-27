@@ -125,7 +125,37 @@ Approaches                        `Description
 
 
 
-docker container run -dt --name mycpu01 --cpu=1
+docker container run -dt --name mycpu01 --cpus=1.5 busybox sh
+
+docker container run -dt --name cpu3 --cpuset-cpus=0,1 busybox sh 
+
+
+RESERVATIN VS LIMIT
+
+  By default, a container has no resource constraints and can use much of a given resource as the host's kernel scheduler allows.
+  
+  It is important not to allow a running container to consume too much of the host machine's memory.
+  
+  One Linux hosts, if the kernel detects that there is not enough memory to perform important system functions, it throws an "Out Of Memory" exception,
+  and starts killing processes to free up memory.
+  
+  
+  Limit imposes an upper limit to the amount of memory that can potentially be used by a Docker container.
+  
+  Reservations, on the other hand, is less rigid.
+  
+  When the system is running low on memory and there is contention, reservation tries to bring the container's memory consumption at or
+  below the reservation limit.
+  
+  LIMIT is hard limit
+  RESERVATION is soft limit
+  
+  
+  docker container run -dt --name container01 --memory-reservation 250m busybox sh #soft limit
+  
+  docker container run -dt --name container02 -m 500m --memory-reservation 250m busybox sh #hard limit with softlimit reservation
+  
+
 
 
 
