@@ -226,3 +226,54 @@ go to master and rotate the key and verify again
   In the event that a cluster CA key or a manager node is compromised, you can rotate the swarm node CA so that none of the nodes trust 
   certificates signed by the old root CA anymore.
 
+
+MANAGING SECRETS IN DOCKER SWARM
+
+  Docker secrets to certrally manager this data and securely transmit it to only those containers that need access to it.
+  
+  Secrets are encrypted during transit and at rest in a Docker swarm.
+  
+  A given secret is ony accessible to those services which have been granted explicit access to it, and only while those service tasks are running.
+
+docker swarm init
+
+docker swarm init --advertise-addr <IP>
+
+docker secret ls
+
+vi db_credentials.txt
+
+username: dbadmin
+pass: dbadmin@123
+
+docker secret create dbcredentials db_credentials.txt
+
+docker secret ls
+
+you will not get the credentials info from the inspect command.
+
+docker secret inspect dbcredentials
+
+
+docker service create --name webserver --secret dbcredentials nginx
+
+docker ps
+
+docker container exec -it <container name or id> bash
+
+cd /run
+ls
+
+cat dbcredentials
+
+you can able to view the secrets now
+
+DOCKER CONTENT TRUST
+
+When we are downloading image from network or from internet, integrity becomes a true concern.
+
+Content trust gives you the ability to verify both the integrity and the publisher of all the data received from a registry over any channel.
+
+This can be achieved with the help of digital signatures.
+
+
