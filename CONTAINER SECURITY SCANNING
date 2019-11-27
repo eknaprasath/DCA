@@ -155,7 +155,15 @@ RESERVATIN VS LIMIT
   
   docker container run -dt --name container02 -m 500m --memory-reservation 250m busybox sh #hard limit with softlimit reservation
   
+SWARM MTLS ( Mutual Transport Layer Security )
 
+  The nodes in a swarm use mutual Transport Layer Security(TLS) to authenticate, authorize, and encrypt the communications with other nodes in the swarm.
+  
+  By default, the manager node generates a new root Certificate Authority (CA) along with a key pair, which are used to secure communications with other nodes that join the swarm.
+  
+  You can specify your own externally-generated root CA, using the --external-ca flag of the docker swarm init command.
+  
+  
 
 
 
