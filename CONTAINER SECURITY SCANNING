@@ -308,7 +308,19 @@ usermod -aG docker dockeruser
 
 
 
+LINUX CAPABILITIES FOR DOCKER
 
+  There are several types of capabilities which Linux provides to have granular acces at the application level.
+  
+  
+  CAPABILITY          ACTION
+  
+  SETPCAP             Yes
+  CHOWN               Yes
+  SYS_MODULE          No
+  LINUX_IMMUTABLE     No
+  
+  
 
 
 
