@@ -167,6 +167,58 @@ SWARM MTLS ( Mutual Transport Layer Security )
 
 
 
+docker swarm init
+
+cd /var/lib/docker/swarm/certificates
+
+  The manager node also generates two tokens to use when you join additional nodes to the swarm: one "worker" token and one "manager" token
+  
+  Each token includes the digest of the root CA's certificate and a randomly generated secret.
+  
+  When a node joins the swarm, the joining node uses the digest to validate the root CA certificate from the remote manager.
+  
+  
+ROTATING THE CA CERTIFICATE
+   Run "docker swarm ca --rotate" to generate a new CA certificate and key.
+   
+   In the above command, docker generated a cross-signed certificate signed by previous old CA.
+   
+   After every node in the swarm has a new TLS certificate signed by the new CA. Docker forgets about te old CA certificate
+   and key material, and tells all the nodes to trust the new CA certificate only.
+   
+   Join tokens also changes accordingly.
+   
+docker swarm join-token worker
+
+copy the token and run it in a new node
+
+go to worker node following location
+cd /var/lib/docker/swarm/certificates
+ls
+
+docker swarm leave
+ls 
+all certificates will be removed
+
+go to master node
+docker node rm worker01
+
+docker swarm ca --rotate
+
+Go to the same worker node again and run the previous join token 
+
+Generate new join token and execute in worker
+
+------------------------------
+If we rotate the certificate to the exising cluster nothing will happen for cluster envirionment but keys will be changed in all nodes
+
+go to worker node and do the 
+
+md5sum swarm-node.crt
+md5sum swarm-node.key
+
+go to master and rotate the key and verify again
+
   By default, each node in the swarm renews its certificate every three months.
   
   You can configure this interval by running the "docker swarm update --cert-expiry <TIME PERIOD>
