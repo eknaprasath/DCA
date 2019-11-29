@@ -320,7 +320,31 @@ LINUX CAPABILITIES FOR DOCKER
   SYS_MODULE          No
   LINUX_IMMUTABLE     No
   
+  docker run -dt --name cap-demo amazonlinux
+  docker exec cap-demo bash
+  whoami
+  touch test.txt
+  chattr
+  yum whatprovides chattr
+  yum install e2fsprogs
+  chattr -i test.txt
   
-
+  go to docker documentations and check for capability key 
+  
+  docs.docker.com/engine/reference/run
+  
+  scroll down for capability
+  
+  docker run -dt --name cap02 --cap-add LINUX_IMMUTABLE amazonlinux
+  docker exec --name cap02 bash
+  yum install e2fsprogs 
+  touch test.txt
+  chattr +i test.txt
+  
+  rm test.txt
+  echo "Hi" > test.txt
+  
+  chattr -i test.txt
+  
 
 
