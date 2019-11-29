@@ -348,3 +348,43 @@ LINUX CAPABILITIES FOR DOCKER
   
 
 
+PRIVILEDGED CONTAINERS
+
+  By default, docker container does not have many capabilities assigned to it.
+  
+    * Docker containers are also not allowed to access any devices.
+    
+  Hence, by default, docker container cannot perfor various use-cases like run docker conatiner inside a docker container.
+  
+  PRIVILEGED CONTAINERS
+  
+    Privileged container can access all the devices on the host as well as have configuration in AppArmor or SELinux to allow the container
+    nearly all the same access to the host as processes running outside containers on the host.
+    
+      * Limits that you set for privileged containers will not be followed.
+      * Running a privileged flag gives all the capabilities to the container.
+      
+      
+      docker run -dt --name amazonlinux amazonlinux bash
+      docker ps
+      on host machine
+      cd /dev
+      ls
+      docker exec -it amazonlinux bash
+      cd /dev/
+      ls
+      
+      Now run a privileged container and see
+      
+      docker run -dt --privileged amazonlinux bash
+      docker ps
+      docker exec -it containerid bash
+      
+      cd /dev/
+      ls
+      
+      
+  
+  
+  
+  
