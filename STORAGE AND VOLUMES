@@ -11,9 +11,29 @@ THE COPY ON WRITE (CoW) STRATEGY
 
 "Copy on write" means: everyone has a single shared copy of the same data until it's written, and then a copy is made.
 
-If a comm
                   Common file
                   
            Program 1       Program 2
+           
+           
+  docker info #to check the storage driver
+  
+  cd /var/lib/docker
+  ls  -l
+  you can see the overlay2
+  
+  cd overlay2
+  ls -l
+  cd l
+  ls
+  
+  docker images
+  docker pull ubuntu
+  cd ..
+  ls -l
+  
+  you can see multiple directories 
+  
+  
            
            
