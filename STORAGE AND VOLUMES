@@ -1,0 +1,19 @@
+* A docker image is built up from a series fo layers.
+* Storage Driver piece all these things together for you
+* There are multiple storage drivers availabel with different trade-off
+
+FROM ubuntu:16.04
+COPY . /app
+RUN make /app
+CMD python /app/app.py
+
+THE COPY ON WRITE (CoW) STRATEGY
+
+"Copy on write" means: everyone has a single shared copy of the same data until it's written, and then a copy is made.
+
+If a comm
+                  Common file
+                  
+           Program 1       Program 2
+           
+           
