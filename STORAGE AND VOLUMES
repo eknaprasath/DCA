@@ -153,7 +153,102 @@ blockdev --getbsz /dev/sdb
         ls # now we can see that container directory delted 
         
            
-          
-          
+       docker volume ls
+       docker volume create myvolume
+       
+       docker volume ls
+       
+       docker container run -dt --name busybox -v myvolume:/etc busybox sh
+       
+       docker volume inspect myvolume # get the mount point
+       
+       cd /var/lib/docker/volumes/myvolume/_data
+       ls -l
+       
+       docker container exec -it busybox sh
+       
+       cd /etc
+       ls
+       
+       docker stop busybox
+       docker rm busybox
+       
+       cd /var/lib/docker/volumes/myvolume/_data
+       ls -l
+       
+       data will be still present in the path
+       
+       we can remove the volume using as follows
+       
+       docker volume rm myvolume
+       
+       
+       FROM busybox
+       RUN mkdir /myvolume
+       RUN echo "hello world" > /myvolume/hellow.txt
+       VOLUME /myvolume
+       
+       docker build -t mydemo .
+       
+       docker run -dt --name mydemo mydemo sh
+       docker ps
+       docker volume ls # new volume will be created 
+       
+   to specify the volume with name
+   
+   docker container run -dt --name mydemo02 -v mydemo02:/myvolume mydemo sh
+   docker volume ls
+   
+   
+   IMPORTANT POINTERS TO REMEMBER
+   
+     A given volume can be mounted into multiple containers simultaneously.
+     When no running container is using a volume, the volume is still available to Docker and is not removed automatically.
+     When you mount a volume, it may be named or anonymous. Anonymous volumes are not given an explicit name when they are first 
+       mounted into a container, so Docker gives them a random name that is guaranteed to be unique within a given Docker host.
+       
+       
+    
+    BIND MOUNTS
+    
+      When you se a bind mount, a file or directory on the host machine is mounted into a container.
+      The file or directory is referenced by its full or relative path on the host machine.
+      Bind mount refered to the existing directory of the machine like "/root/docker"
+      
+      docker container run -dt --name nginx nginx
+      docker inspect nginx # get the ip address
+      curl that ip
+      docker container exec -it nginx bash
+      cd /usr/share/nginx/html
+      cat index.html
+      
+      mkdir /root/index
+      echo "This is index file" > index.html
+      
+      METHOD 1
+      
+      docker container run -dt --name nginxbind01 -v /root/index/:/usr/share/nginx/html nginx
+      docker ps
+      docker inspect nginxbind01 # get the ip address
+      curl <ip address>
+      
+      METHOD 2
+      
+      docker container run -dt --name nginxbind02 --mount type=bind,source=/root/index,target=/usr/share/nginx/html nginx
+      
+      READ ONLY MOUNT
+      
+      docker container run -dt --name nginxbind03 --mount type=bind,source=/root/index,target=/usr/share/nginx/html,readonly nginx
+      
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
       
       
