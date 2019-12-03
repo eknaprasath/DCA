@@ -36,4 +36,124 @@ THE COPY ON WRITE (CoW) STRATEGY
   
   
            
+    VARIOUS STORAGE DRIVERS AVAILABLE
+    
+    There are various storage drivers availabel in Docker, these includes:
+    
+    * AUFS
+    * Device Mapper
+    * OverlayFS
+    * ZFS
+    * VFS
+    * Btrfs
+    
+    
+    
+    BLOCK VS OBJECT STORAGE
+    
+    Block Storage
+    
+      In Block storage, the data is stored in terms of blocks
+      Data stored in blocks are normally read or writtend entirely a whole block at the same time
+      Most of the file systems are based on block devices.
+
+
+lsblk
+blockdev --getbsz /dev/sdb
+
+      Every block has an address and application can be called via SCSI call via it's address
+      There is no storage side meta-data associated with the block except the address.
+      Thus block had no description, no owner.
+      
+      
+      OBJECT SOTRAGE
+      
+      Object storage is a data storage architecture that manages data as objects as opposed to blocks of storage.
+      An object is defined as a data (file) along with all it's meta-data which is combined together as an object.
+      This object is given an ID which is calculated from the content of the object (from the data and metadata). Application can then call object with the unique object ID.
+      
+      
+      DIFFERENCE
+      
+      HTTP(S) INTERFACE                                       Block Storage
+      Object Storage   
+      
+      * Store virtually unlimited files.                   File is split and stored in fixed sized blocks.
+      * Maintain file revisions.                           Capacity can be increased by adding more nodes
+      * HTTP(S) based interface.                           Suitable for applications which require high IOPS, database, transactional data.
+      * File are distributed in different physical nodes.
+      
+      CHANGING STORAGE DIRVERS
+      
+      
+      https://docs.docker.com/storage/storagedriver/select-storage-driver
+      https://docs.docker.com/storage/storagedriver/select-storage-driver/
+      
+      
+      
+      docker info # check for storage driver and OS version
+      
+      If we change the storage dirver existing containers and data will be inaccessible 
+      
+      cd /var/lib/docker
+      ls 
+      cd overlay2
+      ls
+      
+      
+      stop the docker
+      
+      systemctl stop docker
+      
+      cd /etc/docker
+      
+      vi daemon.json
+      
+      {
+       "storage-dirver": "aufs"
+      }
+      
+      systemctl start docker
+      docker info # check the storage driver now
+      
+      docker ps -a
+      
+      exising containers will not be shown
+      
+      
+      CHALLENGES WITH FILES IN CONTAINER WRITABLE LAYER
+      
+       By default all files created inside a container are stored on a writable container layer. This means that:
+          The data doesn't persist when that container no longer exists. and it can be difficult to get the data out of the 
+          container if another process needs it.
+          
+      CHALLENGES WITH FILES IN CONTAINER WRITABLE LAYER - PART 2
+      
+       Writing into a container's writable layer requires a storage dirver to manage the filesystem.
+       The storage driver provides a union filesystem, using the Linux Kernel.
+           This extra abstraction reduces performance as comapared to using data volumes, which write directly to the host filesystem.
            
+           
+     IDEAL APPROACH FOR PERSISTENT DATA
+       
+        Docker has tow options for containers to store files in the host machine, so that the files are persisted even after the container sotps:
+        volumes, and bind mounts.
+        
+        If you're running Docker on Linux you can also use a tempfs mount.
+        
+        
+        Launch one container and go to overlay2 directory check for that
+        
+        cd /var/lib/docker/overlay2
+        ls
+        
+        docker stop nginx-container
+        docker rm nginx-container
+        
+        ls # now we can see that container directory delted 
+        
+           
+          
+          
+      
+      
