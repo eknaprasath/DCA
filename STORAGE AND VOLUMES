@@ -316,10 +316,49 @@ blockdev --getbsz /dev/sdb
   
   
   
+  LOGGING DRIVERS
+  
+    
        
-       
-       
-       
+    UNIX and Linux commands typically open three I/O strems when they run, called STDIN, STDOUT, and STDERR
+    
+    
+        bash                                        nginx
+   stdin    stdout stderr                    stdin stdout stderr
+    |                                           |
+   things that you type                   Things that you type
+                       |                  |
+                       Your Terminal
        
       
+      
+      docker container run -d --name mybusybox busybox ping google.com
+      
+      docker ps
+      
+      docker logs mybusybox
+      
+      docker info | grep -i "logging driver"
+      
+      docker inspect mybusybox # check for the log file type and location
+      
+     
+     We can change the log dirver also
+     
+     docker container run -d --name mycustom --log-dirver none
+     
+        
+       
+     There are a lot of logging driver options available in Docker, some of these include:
+     
+     * json-file
+     * none
+     * syslog
+     * local
+     * journald
+     * splunk
+     * awslogs
+     
+     The docker logs command is not available for drivers other than json-file and journald.
+     
       
