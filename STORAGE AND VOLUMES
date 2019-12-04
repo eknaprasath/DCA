@@ -242,9 +242,80 @@ blockdev --getbsz /dev/sdb
       
        
        
+   AUTOMATICALLY REMOVE VOLUMES ON CONTAINER EXISTS 
+   
+      Whenever a container is created with -dt flag and if the main process completes/stops, then it goes into the Exited stage.
+      We can see list of all containers(Running/Exited) with "docker ps -a" command.
+      Many times, containers performs a job and we want container to automatically get deleted once it exits. This can be achieved withthe --rm option.
        
-       
-       
+   
+   docker container run -dt --name container01 busybox ping -c10 google.com
+   
+   docker ps
+   
+   docker ps -a
+   
+   docker container run --rm -dt --name container02 busybox ping -c10 google.com
+   
+   docker ps 
+   docker ps -a
+   
+   docker container run -dt --name container02 -v /testvolume busybox ping -c10 google.com
+     
+   docker volume ls
+   docker container prune
+   
+   docker volume ls
+   
+   docker container run --rm -dt --name container02 -v /testvolume busybox ping -c10 google.com
+   docker ps 
+   docker ps -a
+   docker volume ls
+   
+   OVERVIEW OF DEVICE MAPPER
+   
+      Device mapper creates logical devices on top of physical block device and provides feature likes: 
+      
+      * RAID, Encryption, CAche and various others.
+      
+      
+      
+      Logical device #001
+      Logical device #002
+      Logical device #003           Pointers from segments of logical devices to block in the pool are stored.
+      
+      Block Pool                      Metadata Device
+      
+   
+   
+   Few Importan Pointers
+   
+   There are two modes for devicemapper storage driver:
+   
+   i) loop-lvm mode:
+   
+     * Should only be used in testing environment.
+     * Makes use of loopback mechanism which is generally on the slower side.
+     
+   ii) direct-lvm mode:
+   
+     * Production hosts using the devicemapper storage driver must use, direct-lvm
+     * This is much more faster then the loop-lvm mode.
+     
+     
+     
+   vi /etc/daemon.json
+   
+   {
+     "storage-driver": "devicemapper"
+   }
+   
+  docker info | grep -i storge
+  
+  systemctl restart docker
+  
+  
+  
        
        
        
