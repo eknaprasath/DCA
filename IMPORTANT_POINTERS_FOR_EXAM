@@ -339,8 +339,45 @@ PART 07
        * Depending on the permissoin associates with the user, you can now execute the swarm commands from your remote machine that take 
          effect on the remote swarm cluster
     
+     3. Docker Secrets
+     
+       Remember that you cannot update or rename a secret, but you can revoke a secret and grant access to it using a new target filename.
+       
+       docker service update --secret-rm mysql_password mysql
+       docker service update --secret add source=NEW-MYSQL-PASS, target=mysql_password mysql
+       
+       
+     4. know about the how you can lock the swarm cluster
+       If your swarm is compromised and if data is stored in plain-text, an attack can get all the sensitive information.
+       
+       Docker Lock allows us to have control over the keys,
+       
+         * docker swarm update --autolock-true
     
       
+      
+      IMPORTANT_POINTERS_DOMAIN 6 STORAGE AND VOLUMES
+      
+      
+      1. Mounting Volumes Inside Container
+      
+        * docker container run -dt --name webserver -v myvolume:/etc/ busybox sh
+        * docker container run -dt --name webserver --mount source=myvolume,target=/etc busybox sh
+        
+          You can even mount same volume to multiple containers.
+          
+            also know what bind mounts are all about
+            How you can map a directory from host container
+            
+       2. Remove volume when container exits
+       
+         If you have not named volume, then when you specify --rm option, the volumes associated will also be delted when container is deleted.
+         
+       3. Device Mapper
+       
+         * loop-lvm mode is for testing purpose only.
+         * direct-lvm mode can be used in production.
+         
       
       
        
