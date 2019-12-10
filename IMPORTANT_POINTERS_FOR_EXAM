@@ -177,5 +177,35 @@ PART 07
         
     PART 09
        
-         
-  
+      11. Transferring Image / Container from one host to another
+      
+        * docker commit container-id image-name
+        * docker save image-name > image-name.tar
+        * docker export <containerID> > /home/export.tar
+     
+       When  we export a container, all the resultant imported image will be flattened.
+       
+       
+       
+    IMPORTANT_POINTERS_DOMAIN 3
+    
+      PART 01
+      
+      1. Overview of DTR Backup Process
+        
+        * When we backup DTR, there are certain things which are not backed.
+        * User/Organization backup should be taken from UCP.
+        
+        
+      Data                     Description                                                                   Backed up
+      Raft keys               Used to encrypt communicaiton among swarm nodes and to encrypt and                yes
+                              decrypt Raft logs                                                         
+      membership              List of the nodes in the cluster                                                  yes
+      Service                 Stacks and services stored in Swarm-mode                                          yes
+      (overlay) networks      The overlay networks created on the cluster                                       yes
+      configs                 The configs created in the cluster                                                yes
+      Secrets                 Secrets saved in the cluster                                                      yes
+      Swarm unlock key        MUST BE SAVED ON A PASSWORD MANAGER !                                              NO
+      
+      
+     
