@@ -206,6 +206,141 @@ PART 07
       configs                 The configs created in the cluster                                                yes
       Secrets                 Secrets saved in the cluster                                                      yes
       Swarm unlock key        MUST BE SAVED ON A PASSWORD MANAGER !                                              NO
+      Images                                                                                                     NO
       
-      
+    PART 02
+    
+     2. Swarm Routing Mesh
      
+       All nodes within the cluster participate in the ingress routing mesh.
+       
+        Sample Command:
+        
+         docker service create --name mywebserver --publish published=8080,target=80 nginx
+     
+     PART 03
+      
+      3. Know what namespace are all about.
+      
+       These namespaces provide a layer of isolation. Each aspect of a container runs in a separate namespace and its access is limited to that namespace.
+       
+       User namespace is not enabled by default.
+       
+      
+     PART 04
+     
+      4. Have clear understanding about cgroups.
+      
+        Control Groups (cgroups) is a Linux Kernel feature that limits, accounts for, and isolates the resource usage (CPU, Memory, disk I/O,Network, etc. )
+        of a collection of processes.
+        
+        
+          Approaches                           Description
+          
+          --cpu=<value>                 If host has 2 CPUs and if you set --cpu=1, than container is guaranteed at most one CPU. You can even specify --cpu=0.5
+          
+          --cpuset-cpus                 Limit the specific CPUs or cores a container can use. A comma-separated list of hyphen-separated range of CPUs a container can use.
+                                        
+                                        1st CPU is numbered 0
+                                        2nd CPU is numbered 1
+                                        
+                                        Value of 0-3 means usage of first, second, thired and fourch CPU.
+                                        Value of 1,3 means second and fourth CPU.
+                                        
+       PART 05
+       
+        5. Reservation vs Limits
+        
+         * Limit is hard limit.
+         * Reservation is a soft limit.
+         
+         * docker container run -dt --name container01 --memory-reservation 250m ubuntu
+         * docker container run -dt --name container02 -m 500m ubuntu
+         
+       PART 06
+       
+       6. Immutable Tags in DTR
+          
+          * By default, users with read and write access can overwrite tags.
+          * To prevent tags from being overwritten, we can configure repository to be immutable.
+          
+      
+      IMPORTANT_POINTERS_DOMAIN 4
+      PART 01
+      
+        You should be aware of the primary networking drivers.
+        
+         1. Bridge Network Driver:
+         
+          * Bridge is the default network driver for Docker.
+          
+        
+      PART 02
+      
+       2. Host Network
+       
+         * This driver removes the network isolation between the docker host and the docker containers to use the host's networking directly
+         
+       3. Overlay Network
+       
+         * Default in Swarm.
+         * Allows containers across host to communicate with each other.
+         * Communicaiton can be encrypted with --opt encrypted option.
+         * Do not confuse, -o is smae as --opt
+         
+       PART 03
+       
+         4. User defined Bridge and Legacy Link Approach
+         
+           Remember that --link is a legacy approach and should not be used.
+           
+         5. Be aware about the --opt while creating networks
+         
+           docker network create --driver=bridge --subnet 172.31.0.0/16 --gateway 172.31.0.1 --ip-range 172.31.1.0/24 --opt "docker.network.driver.mtu=1540" mybro
+           
+           
+       PART 04
+       
+         6. Know difference between publish list (-p) and publish all (-P)
+         
+           * Publish List (-p) will publish list of ports that you define. [-p 80:80]
+           * Publish All (-P) will asign random ports for all exposed ports of the container.
+           * -P will map the container port to random port above 32768
+           
+         7. None Network
+           
+           * If you want to completely disable the networking stack on a container, you can use the none network.
+           * This mode will not configure any IP for the container and doesn't have the external network as well as for other containers.
+           
+        PART 05
+        
+         8. Configuring docker for external DNS
+         
+           * Docker container's DNS configuration is taken from the host's /etc/resolv/conf
+           * DNS settings for containers be customized vis daemon.json file.
+           
+           {
+             "dns": ["8.8.8.8","172.31.0.2"]
+           }
+           
+           
+    IMPORTANT_POINTERS_DOMAIN 5 SECURITY
+    
+    PART 01
+    
+     1. Docker Content Trust
+     
+       * Used for interacting with only trusted images (signed images)
+       * Enabled with export DOCKER_CONTENT_TRUST=1
+       
+     2. UCP Client Bundles
+     
+       * Client bundles are group of certificates and files downloaded from UCP
+       * Depending on the permissoin associates with the user, you can now execute the swarm commands from your remote machine that take 
+         effect on the remote swarm cluster
+    
+    
+      
+      
+      
+       
