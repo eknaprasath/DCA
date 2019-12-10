@@ -44,4 +44,138 @@ PART 04
 
   * docker node update --label-add region=mumbai worker-node-id
   
+PART 05
+
+9. Overlay Networks & Security
+
+  Overlay network allows containers spreaded across different servers to communicate.
+  The communicaiton between containers can be made secured with IPSec tunnels.
+  
+  docker network create --opt encrypted --driver overlay my-overlay-secure-network
+  
+ PART 06 
+ 
+10. Revise and Double Revise the Quorum
+
+    Cluster Size                  Majority                       Fault Tolerance
+    1                              0                                 0
+    2                              2                                 0
+    3                              2                                 1
+    4                              3                                 1
+    5                              3                                 2
+    6                              4                                 2
+    7                              4                                 3
+    
+PART 07    
+11. Troubleshooting aspect
+
+  * "docker system events" provides you real-time even information from your server.
+  * Service Deployment would be in pending state if node is drained.
+  * Service deployments can also be in pending state due to placement constraints.
+  * You can further inspect the task to see more information.
+  
+  
+  
+  IMPORTANT_POINTERS_DOMAIN 2
+  
+  PART 01
+  
+   1. Have thorough understanding about various Dockerfile options
+   
+     ADD
+     COPY
+     RUN
+     ENTRYPOINT
+     VOLUMES
+     CMD
+     HEALTHCHECK
+     
+ PART 02
+ 
+   2. Understand difference between ADD and COPY 
+   
+     COPY allows us to copy files from local source to destination.
+     ADD allows the same in addition to using URL & extraction capabilities of TAR files.
+     
+   3. Know difference between CMD and ENTRYPOINT
+   
+     * CMD can be overridden.
+     * ENTRYPOINT cannot be overridden.
+     
+   PART 03
+   
+   4 Use-cases of using ADD vs wget / curl
+   
+     * Because image size matters, using ADD to fetch packages from remote URLs is strongly discouraged; you should use curl or wget instead.
+     
+       ADD https://example.com/big.tar.xz /usr/src/things/
+       RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things
+       RUN make -C /usr/src/things all
+       
+       RUN makdir -p /usr/src/things \
+           && curl -SL http://example.com/big.tar.xz \
+           | tar -xJC /usr/src/things \
+           && make -C /usr/src/things all
+           
+   PART 04
+   
+    5 Understanding the format option
+    
+       Format options allows us to format the output based on various criteria that we have defined with the command.
+        
+       docker images --format "{{.ID}}: {{.Repository}}"
+       
+  PART 05
+    
+    6 Understanding the filter option
+      
+       Filter option allows us to filter output based on condition provided.
+       
+       Sample Use-Case:
+       
+         * Show all the dangling images
+         * Show all the images created after N image.
+         * Show all the containers which are in the excited stage.
+         
+         
+         docker images --filter "before=ubuntu"
+         docker images --filter "dangling=true"
+         
+   PART 06
+     
+     7. Accessing in-secure docker registries
+     
+       By default, docker will not allow you to perform operation with an insecure registry.
+       You can override by adding following stanza within the /etc/docker/daemon.json file
+       
+       {
+       "insecure-registries" : ["myregistrydomin.com:5000"]
+       }
+       
+   PART 07
+   
+     8. Pushing an image to a private repository
+     
+       In order to push an image to private repository, you will have to tage it with the DNS name..
+       
+      For Example:
+        
+        Registry Name: example.com
+        docker tag ubuntu:latest example.com/myrepo:ubuntu
+        
+        
+    PART 08
+    
+      9. Login to a private repository
+      
+        docker login example.com
+        
+      10. Searchability Aspect of Images
+      
+        * docker search nginx
+        * docker search nginx --filter "is-official=true"
+        
+    PART 09
+       
+         
   
