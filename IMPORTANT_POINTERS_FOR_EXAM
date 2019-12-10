@@ -1,0 +1,47 @@
+IMPORTANT_POINTERS_DOMAIN 1
+
+PART 01
+
+1. You should know how to create swarm service
+  * docker service create --name webserver --replicas 1 nginx
+  
+2. Difference between replicated and global service
+
+  * Replicated service will have N number of containers defined with the --replica flag
+  * Global service will create 1 container in every node of the cluster.
+  
+PART 02
+
+3. Multiple approaches to scale swarm service
+  
+  * docker service scale mywebserver=5
+  * docker service update --replicas 5 mywebserver
+  
+4. Difference between two approaches to scale swarm service
+  
+  * docker service scale allows us to specify multiple services in same command.
+  * docker service update command only allows us to specivy one service per command
+  
+PART 03
+
+5. Draining Swarm Node
+
+  * docker node update --availability drain swarm03
+  * docker node update --availability active swarm03
+  
+6. Understanding the use-case of Docker Stack CLI
+
+  * docker stack deploy --compose-file docker-compose.yml
+  
+PART 04
+
+7. Placement Constraints
+
+  * docker service create --name webserver --constraint node.label.region==blr nginx
+  * docker service create --name webserver --constraint node.label.region!=blr nginx
+  
+8. Adding Labels to a node
+
+  * docker node update --label-add region=mumbai worker-node-id
+  
+  
